@@ -1,0 +1,61 @@
+.home {
+  height: 100vh;
+  overflow-y: scroll;
+  display: flex;
+  background-color: #F3F5F8;
+  .mainContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    .container {
+      gap: 1rem;
+      width: 50vw;
+      display: flex;
+      margin-top: 5rem;
+      flex-direction: column;
+      form, .results {
+        gap: 0.5rem;
+        border: 1px solid #E0E0E0;
+        display: flex;
+        padding: 1.5rem;
+        min-width: 20vw;
+        border-radius: 0.3rem;
+        flex-direction: column;
+        background-clip: border-box;
+        background-color: white;
+        .scheduleCards {
+          padding: 0.5rem;
+          border-radius: 0.35rem;
+          margin-bottom: 1rem;
+          background-color: #91f545;
+        }
+        .error {
+          background-color: #f00;
+        }
+      }
+    }
+  }
+}
+
+// MEDIA QUERIES
+
+@media screen and (max-width: 1000px) {
+  .home {
+    .mainContainer {
+      .container {
+        width: 80vw;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .home {
+    .mainContainer {
+      .container {
+        width: 90vw;
+      }
+    }
+  }
+}
