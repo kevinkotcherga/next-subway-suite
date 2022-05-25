@@ -10,21 +10,10 @@ const Home = () => {
 	const [uniqueStationNumber, setUniqueStationNumber] = useState('default');
 	const [uniqueStationName, setUniqueStationName] = useState('default');
 	const [allStationNames, setAllStationNames] = useState([]);
-	const [viewableOption, setViewableOption] = useState(false);
-  const [viewableSchedules, setViewableSchedules] = useState(false);
 	const [schedulesWayA, setSchedulesWayA] = useState([]);
   const [schedulesWayR, setSchedulesWayR] = useState([]);
   const [errorWayA, setErrorWayA] = useState(false);
   const [errorWayR, setErrorWayR] = useState(false);
-
-  useEffect(() => {
-		const testfunction = () => {
-			if (uniqueStationNumber === 'default') {
-				setViewableOption(false);
-			}
-		};
-    testfunction();
-	}, []);
 
 	// Récupération du numéro des stations de métro depuis l'API
 	useEffect(() => {
