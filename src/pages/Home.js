@@ -55,7 +55,7 @@ const Home = () => {
         } else {
           setViewableOption(false);
           setViewableSchedules(false);
-        }
+        };
 		} catch (err) {
 			console.log(err);
 		}
@@ -82,6 +82,11 @@ const Home = () => {
 	const handleStationName = e => {
 		try {
 			setUniqueStationName(e.target.value);
+        if (uniqueStationName === 'default') {
+          setViewableSchedules(true);
+        } else {
+          setViewableSchedules(false);
+        };
 		} catch (err) {
 			console.log(err);
 		}
