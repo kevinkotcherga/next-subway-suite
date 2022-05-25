@@ -16,6 +16,15 @@ const Home = () => {
   const [errorWayA, setErrorWayA] = useState(false);
   const [errorWayR, setErrorWayR] = useState(false);
 
+  useEffect(() => {
+		const testfunction = () => {
+			if (uniqueStationNumber === 'default') {
+				setViewableOption(false);
+			}
+		};
+    testfunction();
+	}, []);
+
 	// Récupération du numéro des stations de métro depuis l'API
 	useEffect(() => {
 		const getSubwayStationNumbers = async () => {
@@ -39,10 +48,14 @@ const Home = () => {
 	const handleSubwayNumber = e => {
 		try {
 			setUniqueStationNumber(e.target.value);
+        if (uniqueStationNumber === 'default') {
+          setViewableOption(true);
+        } else {
+          setViewableOption(false);
+        }
 		} catch (err) {
 			console.log(err);
 		}
-		setViewableOption(true);
 	};
 
 	// Recupération du nom des stations
