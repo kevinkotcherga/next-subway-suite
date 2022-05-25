@@ -49,17 +49,12 @@ const Home = () => {
 	const handleSubwayNumber = e => {
 		try {
 			setUniqueStationNumber(e.target.value);
-        if (uniqueStationNumber === 'default') {
-          setViewableOption(true);
-          setViewableSchedules(true);
-        } else {
-          setViewableOption(false);
-          setViewableSchedules(false);
-        };
 		} catch (err) {
 			console.log(err);
-		}
+		};
 	};
+
+  console.log(uniqueStationNumber);
 
 	// Recupération du nom des stations
 	useEffect(() => {
@@ -82,14 +77,9 @@ const Home = () => {
 	const handleStationName = e => {
 		try {
 			setUniqueStationName(e.target.value);
-        if (uniqueStationName === 'default') {
-          setViewableSchedules(true);
-        } else {
-          setViewableSchedules(false);
-        };
 		} catch (err) {
 			console.log(err);
-		}
+		};
 	};
 
 	// Recupération des horraires d'une station voie A
@@ -146,7 +136,7 @@ const Home = () => {
 								</option>
 							))}
 						</select>
-						{viewableOption && (
+						{uniqueStationNumber !== 'default' && (
 							<select
 								defaultValue={uniqueStationName}
 								onChange={e => handleStationName(e)}
@@ -162,36 +152,37 @@ const Home = () => {
 					</form>
 					<div className="results">
 						<p>Résultats</p>
-						{viewableSchedules && (
-							<>
-								{errorWayA ? (
-									<ErrorCard className="scheduleCards error" />
-								) : (
-									<>
-										{schedulesWayA?.map(scheduleWayA => (
-											<ScheduleCardsWayA
-												key={scheduleWayA.message}
-												scheduleWayA={scheduleWayA}
-												className="scheduleCards"
-											/>
-										))}
-									</>
-								)}
-								{errorWayR ? (
-									<ErrorCard className="scheduleCards error" />
-								) : (
-									<>
-										{schedulesWayR?.map(scheduleWayR => (
-											<ScheduleCardsWayR
-												key={scheduleWayR.message}
-												scheduleWayR={scheduleWayR}
-												className="scheduleCards"
-											/>
-										))}
-									</>
-								)}
-							</>
-						)}
+						{uniqueStationNumber !== 'default' &&
+							(uniqueStationName !== 'default' && (
+								<>
+									{errorWayA ? (
+										<ErrorCard className="scheduleCards error" />
+									) : (
+										<>
+											{schedulesWayA?.map(scheduleWayA => (
+												<ScheduleCardsWayA
+													key={scheduleWayA.message}
+													scheduleWayA={scheduleWayA}
+													className="scheduleCards"
+												/>
+											))}
+										</>
+									)}
+									{errorWayR ? (
+										<ErrorCard className="scheduleCards error" />
+									) : (
+										<>
+											{schedulesWayR?.map(scheduleWayR => (
+												<ScheduleCardsWayR
+													key={scheduleWayR.message}
+													scheduleWayR={scheduleWayR}
+													className="scheduleCards"
+												/>
+											))}
+										</>
+									)}
+								</>
+							))}
 					</div>
 				</div>
 			</div>
