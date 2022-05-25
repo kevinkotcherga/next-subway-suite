@@ -11,6 +11,7 @@ const Home = () => {
 	const [uniqueStationName, setUniqueStationName] = useState('default');
 	const [allStationNames, setAllStationNames] = useState([]);
 	const [viewableOption, setViewableOption] = useState(false);
+  const [viewableSchedules, setViewableSchedules] = useState(false);
 	const [schedulesWayA, setSchedulesWayA] = useState([]);
   const [schedulesWayR, setSchedulesWayR] = useState([]);
   const [errorWayA, setErrorWayA] = useState(false);
@@ -50,8 +51,10 @@ const Home = () => {
 			setUniqueStationNumber(e.target.value);
         if (uniqueStationNumber === 'default') {
           setViewableOption(true);
+          setViewableSchedules(true);
         } else {
           setViewableOption(false);
+          setViewableSchedules(false);
         }
 		} catch (err) {
 			console.log(err);
@@ -154,30 +157,34 @@ const Home = () => {
 					</form>
 					<div className="results">
 						<p>Résultats</p>
-						{errorWayA ? (
-							<ErrorCard className="scheduleCards error" />
-						) : (
+						{viewableSchedules && (
 							<>
-								{schedulesWayA?.map(scheduleWayA => (
-									<ScheduleCardsWayA
-										key={scheduleWayA.message}
-										scheduleWayA={scheduleWayA}
-										className="scheduleCards"
-									/>
-								))}
-							</>
-						)}
-						{errorWayR ? (
-							<ErrorCard className="scheduleCards error" />
-						) : (
-							<>
-								{schedulesWayR?.map(scheduleWayR => (
-									<ScheduleCardsWayR
-										key={scheduleWayR.message}
-										scheduleWayR={scheduleWayR}
-										className="scheduleCards"
-									/>
-								))}
+								{errorWayA ? (
+									<ErrorCard className="scheduleCards error" />
+								) : (
+									<>
+										{schedulesWayA?.map(scheduleWayA => (
+											<ScheduleCardsWayA
+												key={scheduleWayA.message}
+												scheduleWayA={scheduleWayA}
+												className="scheduleCards"
+											/>
+										))}
+									</>
+								)}
+								{errorWayR ? (
+									<ErrorCard className="scheduleCards error" />
+								) : (
+									<>
+										{schedulesWayR?.map(scheduleWayR => (
+											<ScheduleCardsWayR
+												key={scheduleWayR.message}
+												scheduleWayR={scheduleWayR}
+												className="scheduleCards"
+											/>
+										))}
+									</>
+								)}
 							</>
 						)}
 					</div>
