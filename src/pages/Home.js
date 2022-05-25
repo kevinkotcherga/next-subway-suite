@@ -10,6 +10,7 @@ const Home = () => {
 	const [uniqueStationNumber, setUniqueStationNumber] = useState('default');
 	const [uniqueStationName, setUniqueStationName] = useState('default');
 	const [allStationNames, setAllStationNames] = useState([]);
+
 	const [schedulesWayA, setSchedulesWayA] = useState([]);
   const [schedulesWayR, setSchedulesWayR] = useState([]);
   const [errorWayA, setErrorWayA] = useState(false);
