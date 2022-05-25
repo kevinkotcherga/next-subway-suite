@@ -43,3 +43,4 @@ Début du projet à 14h20
 ### Deux évolutions possibles
 - Avec plus de temps j'aurais d'abord réalisé ce que je n'ai pas pu faire dans mes deux difficultés, j'aurais ensuite ajouté des tests et Typescript à l'application pour échapper à aucun bug. J'aurais également ajouté un chargement quand la data est appelée.
 - L'application pourrait évoluer en ajoutant des favoris 
+# next-subway-suite
