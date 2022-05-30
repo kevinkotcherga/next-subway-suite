@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import ErrorCard from '../components/errorCard/ErrorCard';
 import ScheduleCardsWayA from '../components/scheduleCardsWayA/ScheduleCardsWayA';
 import ScheduleCardsWayR from '../components/scheduleCardsWayR/ScheduleCardsWayR';
@@ -14,6 +15,8 @@ const Home = () => {
   const [schedulesWayR, setSchedulesWayR] = useState([]);
   const [errorWayA, setErrorWayA] = useState(false);
   const [errorWayR, setErrorWayR] = useState(false);
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
 	// Récupération du numéro des stations de métro depuis l'API
 	useEffect(() => {
