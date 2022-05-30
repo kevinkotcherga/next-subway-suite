@@ -16,7 +16,7 @@ const Home = () => {
   const [errorWayA, setErrorWayA] = useState(false);
   const [errorWayR, setErrorWayR] = useState(false);
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchSubwayNumber, setSearchSubwayNumber] = useSearchParams();
 
 	// Récupération du numéro des stations de métro depuis l'API
 	useEffect(() => {
@@ -41,6 +41,7 @@ const Home = () => {
 	const handleSubwayNumber = e => {
 		try {
 			setUniqueStationNumber(e.target.value);
+      setSearchSubwayNumber({ subwayNumber: e.target.value });
 		} catch (err) {
 			console.log(err);
 		};
@@ -117,6 +118,7 @@ const Home = () => {
 					<form>
 						<select
 							defaultValue={uniqueStationNumber}
+							value={searchSubwayNumber.get('subwayNumber')}
 							onChange={e => handleSubwayNumber(e)}
 						>
 							<option value="default">Sélectionner une ligne...</option>
@@ -143,7 +145,7 @@ const Home = () => {
 					<div className="results">
 						<p>Résultats</p>
 						{uniqueStationNumber !== 'default' &&
-							(uniqueStationName !== 'default' && (
+							uniqueStationName !== 'default' && (
 								<>
 									{errorWayA ? (
 										<ErrorCard className="scheduleCards error" />
@@ -172,7 +174,7 @@ const Home = () => {
 										</>
 									)}
 								</>
-							))}
+							)}
 					</div>
 				</div>
 			</div>
