@@ -53,25 +53,25 @@ const Home = () => {
 	// Recupération du nom des stations
 	useEffect(() => {
 		const getStationNames = async () => {
-      if (uniqueStationNumber !== 'default') {
-        try {
-          const { data } = await axios.get(
-            `https://api-ratp.pierre-grimaud.fr/v4/stations/metros/${uniqueStationNumber}`,
-          );
-          setAllStationNames(data.result.stations);
-        } catch (err) {
-          console.log(err);
-        };
-      };
+			if (subwayNumber !== 'default') {
+				try {
+					const { data } = await axios.get(
+						`https://api-ratp.pierre-grimaud.fr/v4/stations/metros/${subwayNumber}`,
+					);
+					setAllStationNames(data.result.stations);
+				} catch (err) {
+					console.log(err);
+				}
+			}
 		};
 		getStationNames();
-	}, [uniqueStationNumber]);
+	}, [subwayNumber]);
 
 	// Récupération du nom d'une station avec onChange
 	const handleStationName = e => {
 		try {
 			setUniqueStationName(e.target.value);
-     searchParams.set('subwayName', e.target.value);
+     searchParams.set('stationName', e.target.value);
      setSearchParams(searchParams);
 		} catch (err) {
 			console.log(err);
@@ -81,40 +81,42 @@ const Home = () => {
 	// Recupération des horraires d'une station voie A
 	useEffect(() => {
 		const getSchedulesWayA = async () => {
-			if (uniqueStationName !== 'default') {
+			if (stationName !== 'default') {
 				try {
 					const { data } = await axios.get(
-						`https://api-ratp.pierre-grimaud.fr/v4/schedules/metros/${uniqueStationNumber}/${uniqueStationName}/A`,
+						`https://api-ratp.pierre-grimaud.fr/v4/schedules/metros/${subwayNumber}/${stationName}/A`,
 					);
 					setSchedulesWayA(data.result.schedules);
-          setErrorWayA(false);
+					setErrorWayA(false);
 				} catch (err) {
-          setErrorWayA(true);
+					setErrorWayA(true);
 					console.log(err);
 				}
-			};
+			}
 		};
 		getSchedulesWayA();
-	}, [uniqueStationName]);
+	}, [stationName]);
 
 	// Recupération des horraires d'une station voie R
 	useEffect(() => {
 		const getSchedulesWayR = async () => {
-			if (uniqueStationName !== 'default') {
+			if (stationName !== 'default') {
 				try {
 					const { data } = await axios.get(
-						`https://api-ratp.pierre-grimaud.fr/v4/schedules/metros/${uniqueStationNumber}/${uniqueStationName}/R`,
+						`https://api-ratp.pierre-grimaud.fr/v4/schedules/metros/${subwayNumber}/${stationName}/R`,
 					);
 					setSchedulesWayR(data.result.schedules);
-          setErrorWayR(false);
+					setErrorWayR(false);
 				} catch (err) {
-          setErrorWayR(true);
+					setErrorWayR(true);
 					console.log(err);
 				}
 			}
 		};
 		getSchedulesWayR();
-	}, [uniqueStationName]);
+	}, [stationName]);
+
+  console.log(subwayNumber);
 
 	return (
 		<div className="home">
@@ -133,7 +135,7 @@ const Home = () => {
 								</option>
 							))}
 						</select>
-						{uniqueStationNumber !== 'default' && (
+						{subwayNumber !== 'default' && (
 							<select
 								defaultValue={uniqueStationName}
 								value={stationName}
@@ -150,37 +152,36 @@ const Home = () => {
 					</form>
 					<div className="results">
 						<p>Résultats</p>
-						{uniqueStationNumber !== 'default' &&
-							uniqueStationName !== 'default' && (
-								<>
-									{errorWayA ? (
-										<ErrorCard className="scheduleCards error" />
-									) : (
-										<>
-											{schedulesWayA?.map(scheduleWayA => (
-												<ScheduleCardsWayA
-													key={scheduleWayA.message}
-													scheduleWayA={scheduleWayA}
-													className="scheduleCards"
-												/>
-											))}
-										</>
-									)}
-									{errorWayR ? (
-										<ErrorCard className="scheduleCards error" />
-									) : (
-										<>
-											{schedulesWayR?.map(scheduleWayR => (
-												<ScheduleCardsWayR
-													key={scheduleWayR.message}
-													scheduleWayR={scheduleWayR}
-													className="scheduleCards"
-												/>
-											))}
-										</>
-									)}
-								</>
-							)}
+						{subwayNumber !== 'default' && stationName !== 'default' && (
+							<>
+								{errorWayA ? (
+									<ErrorCard className="scheduleCards error" />
+								) : (
+									<>
+										{schedulesWayA?.map(scheduleWayA => (
+											<ScheduleCardsWayA
+												key={scheduleWayA.message}
+												scheduleWayA={scheduleWayA}
+												className="scheduleCards"
+											/>
+										))}
+									</>
+								)}
+								{errorWayR ? (
+									<ErrorCard className="scheduleCards error" />
+								) : (
+									<>
+										{schedulesWayR?.map(scheduleWayR => (
+											<ScheduleCardsWayR
+												key={scheduleWayR.message}
+												scheduleWayR={scheduleWayR}
+												className="scheduleCards"
+											/>
+										))}
+									</>
+								)}
+							</>
+						)}
 					</div>
 				</div>
 			</div>
