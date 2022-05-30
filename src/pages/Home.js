@@ -16,7 +16,10 @@ const Home = () => {
   const [errorWayA, setErrorWayA] = useState(false);
   const [errorWayR, setErrorWayR] = useState(false);
 
-  const [searchSubwayNumber, setSearchSubwayNumber] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const subwayNumber = searchParams.get('subwayNumber');
+  const stationName = searchParams.get('stationName');
 
 	// Récupération du numéro des stations de métro depuis l'API
 	useEffect(() => {
@@ -41,7 +44,7 @@ const Home = () => {
 	const handleSubwayNumber = e => {
 		try {
 			setUniqueStationNumber(e.target.value);
-      setSearchSubwayNumber({ subwayNumber: e.target.value });
+      setSearchParams({ subwayNumber: e.target.value });
 		} catch (err) {
 			console.log(err);
 		};
@@ -68,6 +71,8 @@ const Home = () => {
 	const handleStationName = e => {
 		try {
 			setUniqueStationName(e.target.value);
+     searchParams.set('subwayName', e.target.value);
+     setSearchParams(searchParams);
 		} catch (err) {
 			console.log(err);
 		};
@@ -118,7 +123,7 @@ const Home = () => {
 					<form>
 						<select
 							defaultValue={uniqueStationNumber}
-							value={searchSubwayNumber.get('subwayNumber')}
+							value={subwayNumber}
 							onChange={e => handleSubwayNumber(e)}
 						>
 							<option value="default">Sélectionner une ligne...</option>
@@ -131,6 +136,7 @@ const Home = () => {
 						{uniqueStationNumber !== 'default' && (
 							<select
 								defaultValue={uniqueStationName}
+								value={stationName}
 								onChange={e => handleStationName(e)}
 							>
 								<option value="default">Sélectionner une station...</option>
