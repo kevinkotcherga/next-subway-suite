@@ -12,14 +12,15 @@ const Home = () => {
 	const [uniqueStationName, setUniqueStationName] = useState('default');
 	const [allStationNames, setAllStationNames] = useState([]);
 	const [schedulesWayA, setSchedulesWayA] = useState([]);
-  const [schedulesWayR, setSchedulesWayR] = useState([]);
-  const [errorWayA, setErrorWayA] = useState(false);
-  const [errorWayR, setErrorWayR] = useState(false);
+	const [schedulesWayR, setSchedulesWayR] = useState([]);
+	const [errorWayA, setErrorWayA] = useState(false);
+	const [errorWayR, setErrorWayR] = useState(false);
 
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const subwayNumber = searchParams.get('subwayNumber');
-  const stationName = searchParams.get('stationName');
+	// useSearchParams envoie les paramètres à l'url
+	const [searchParams, setSearchParams] = useSearchParams();
+	// La valeur est récupéré avec onChange dans handleSubwayNumber et handleStationName
+	const line = searchParams.get('line');
+	const station = searchParams.get('station');
 
 	// Récupération du numéro des stations de métro depuis l'API
 	useEffect(() => {
@@ -44,19 +45,19 @@ const Home = () => {
 	const handleSubwayNumber = e => {
 		try {
 			setUniqueStationNumber(e.target.value);
-      setSearchParams({ subwayNumber: e.target.value });
+			setSearchParams({ line: e.target.value });
 		} catch (err) {
 			console.log(err);
-		};
+		}
 	};
 
 	// Recupération du nom des stations
 	useEffect(() => {
 		const getStationNames = async () => {
-			if (subwayNumber !== 'default') {
+			if (line !== 'default') {
 				try {
 					const { data } = await axios.get(
-						`https://api-ratp.pierre-grimaud.fr/v4/stations/metros/${subwayNumber}`,
+						`https://api-ratp.pierre-grimaud.fr/v4/stations/metros/${line}`,
 					);
 					setAllStationNames(data.result.stations);
 				} catch (err) {
@@ -65,26 +66,26 @@ const Home = () => {
 			}
 		};
 		getStationNames();
-	}, [subwayNumber]);
+	}, [line]);
 
 	// Récupération du nom d'une station avec onChange
 	const handleStationName = e => {
 		try {
 			setUniqueStationName(e.target.value);
-     searchParams.set('stationName', e.target.value);
-     setSearchParams(searchParams);
+			searchParams.set('station', e.target.value);
+			setSearchParams(searchParams);
 		} catch (err) {
 			console.log(err);
-		};
+		}
 	};
 
 	// Recupération des horraires d'une station voie A
 	useEffect(() => {
 		const getSchedulesWayA = async () => {
-			if (stationName !== 'default') {
+			if (station !== 'default') {
 				try {
 					const { data } = await axios.get(
-						`https://api-ratp.pierre-grimaud.fr/v4/schedules/metros/${subwayNumber}/${stationName}/A`,
+						`https://api-ratp.pierre-grimaud.fr/v4/schedules/metros/${line}/${station}/A`,
 					);
 					setSchedulesWayA(data.result.schedules);
 					setErrorWayA(false);
@@ -95,15 +96,15 @@ const Home = () => {
 			}
 		};
 		getSchedulesWayA();
-	}, [stationName]);
+	}, [station]);
 
 	// Recupération des horraires d'une station voie R
 	useEffect(() => {
 		const getSchedulesWayR = async () => {
-			if (stationName !== 'default') {
+			if (station !== 'default') {
 				try {
 					const { data } = await axios.get(
-						`https://api-ratp.pierre-grimaud.fr/v4/schedules/metros/${subwayNumber}/${stationName}/R`,
+						`https://api-ratp.pierre-grimaud.fr/v4/schedules/metros/${line}/${station}/R`,
 					);
 					setSchedulesWayR(data.result.schedules);
 					setErrorWayR(false);
@@ -114,9 +115,7 @@ const Home = () => {
 			}
 		};
 		getSchedulesWayR();
-	}, [stationName]);
-
-  console.log(subwayNumber);
+	}, [station]);
 
 	return (
 		<div className="home">
@@ -125,7 +124,6 @@ const Home = () => {
 					<form>
 						<select
 							defaultValue={uniqueStationNumber}
-							value={subwayNumber}
 							onChange={e => handleSubwayNumber(e)}
 						>
 							<option value="default">Sélectionner une ligne...</option>
@@ -135,10 +133,9 @@ const Home = () => {
 								</option>
 							))}
 						</select>
-						{subwayNumber !== 'default' && (
+						{line !== 'default' && uniqueStationNumber !== 'default' && (
 							<select
 								defaultValue={uniqueStationName}
-								value={stationName}
 								onChange={e => handleStationName(e)}
 							>
 								<option value="default">Sélectionner une station...</option>
@@ -152,36 +149,39 @@ const Home = () => {
 					</form>
 					<div className="results">
 						<p>Résultats</p>
-						{subwayNumber !== 'default' && stationName !== 'default' && (
-							<>
-								{errorWayA ? (
-									<ErrorCard className="scheduleCards error" />
-								) : (
-									<>
-										{schedulesWayA?.map(scheduleWayA => (
-											<ScheduleCardsWayA
-												key={scheduleWayA.message}
-												scheduleWayA={scheduleWayA}
-												className="scheduleCards"
-											/>
-										))}
-									</>
-								)}
-								{errorWayR ? (
-									<ErrorCard className="scheduleCards error" />
-								) : (
-									<>
-										{schedulesWayR?.map(scheduleWayR => (
-											<ScheduleCardsWayR
-												key={scheduleWayR.message}
-												scheduleWayR={scheduleWayR}
-												className="scheduleCards"
-											/>
-										))}
-									</>
-								)}
-							</>
-						)}
+						{line !== 'default' &&
+							uniqueStationNumber !== 'default' &&
+							uniqueStationName !== 'default' &&
+							station !== 'default' && (
+								<>
+									{errorWayA ? (
+										<ErrorCard className="scheduleCards error" />
+									) : (
+										<>
+											{schedulesWayA?.map(scheduleWayA => (
+												<ScheduleCardsWayA
+													key={scheduleWayA.message}
+													scheduleWayA={scheduleWayA}
+													className="scheduleCards"
+												/>
+											))}
+										</>
+									)}
+									{errorWayR ? (
+										<ErrorCard className="scheduleCards error" />
+									) : (
+										<>
+											{schedulesWayR?.map(scheduleWayR => (
+												<ScheduleCardsWayR
+													key={scheduleWayR.message}
+													scheduleWayR={scheduleWayR}
+													className="scheduleCards"
+												/>
+											))}
+										</>
+									)}
+								</>
+							)}
 					</div>
 				</div>
 			</div>
