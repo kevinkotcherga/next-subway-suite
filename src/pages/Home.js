@@ -15,6 +15,7 @@ const Home = () => {
 	const [schedulesWayR, setSchedulesWayR] = useState([]);
 	const [errorWayA, setErrorWayA] = useState(false);
 	const [errorWayR, setErrorWayR] = useState(false);
+  const [loading, setLoading] = useState(false);
 
 	// useSearchParams envoie les paramètres à l'url
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -89,10 +90,11 @@ const Home = () => {
 					);
 					setSchedulesWayA(data.result.schedules);
 					setErrorWayA(false);
+          setLoading(true);
 				} catch (err) {
 					setErrorWayA(true);
 					console.log(err);
-				}
+				};
 			}
 		};
 		getSchedulesWayA();
@@ -108,6 +110,7 @@ const Home = () => {
 					);
 					setSchedulesWayR(data.result.schedules);
 					setErrorWayR(false);
+          setLoading(true);
 				} catch (err) {
 					setErrorWayR(true);
 					console.log(err);
@@ -133,6 +136,7 @@ const Home = () => {
 								</option>
 							))}
 						</select>
+
 						{line !== 'default' && uniqueStationNumber !== 'default' && (
 							<select
 								defaultValue={uniqueStationName}
@@ -147,38 +151,45 @@ const Home = () => {
 							</select>
 						)}
 					</form>
+
 					<div className="results">
 						<p>Résultats</p>
 						{line !== 'default' &&
+							station !== 'default' &&
 							uniqueStationNumber !== 'default' &&
-							uniqueStationName !== 'default' &&
-							station !== 'default' && (
+							uniqueStationName !== 'default' && (
 								<>
-									{errorWayA ? (
-										<ErrorCard className="scheduleCards error" />
-									) : (
+									{loading ? (
 										<>
-											{schedulesWayA?.map(scheduleWayA => (
-												<ScheduleCardsWayA
-													key={scheduleWayA.message}
-													scheduleWayA={scheduleWayA}
-													className="scheduleCards"
-												/>
-											))}
+											{errorWayA ? (
+												<ErrorCard className="scheduleCards error" />
+											) : (
+												<>
+													{schedulesWayA?.map(scheduleWayA => (
+														<ScheduleCardsWayA
+															key={scheduleWayA.message}
+															scheduleWayA={scheduleWayA}
+															className="scheduleCards"
+														/>
+													))}
+												</>
+											)}
+											{errorWayR ? (
+												<ErrorCard className="scheduleCards error" />
+											) : (
+												<>
+													{schedulesWayR?.map(scheduleWayR => (
+														<ScheduleCardsWayR
+															key={scheduleWayR.message}
+															scheduleWayR={scheduleWayR}
+															className="scheduleCards"
+														/>
+													))}
+												</>
+											)}
 										</>
-									)}
-									{errorWayR ? (
-										<ErrorCard className="scheduleCards error" />
 									) : (
-										<>
-											{schedulesWayR?.map(scheduleWayR => (
-												<ScheduleCardsWayR
-													key={scheduleWayR.message}
-													scheduleWayR={scheduleWayR}
-													className="scheduleCards"
-												/>
-											))}
-										</>
+										'Chargement...'
 									)}
 								</>
 							)}
