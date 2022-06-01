@@ -158,9 +158,9 @@ const Home = () => {
 					<div className="results">
 						<p>Résultats</p>
 						{line !== 'default' &&
+							line !== null &&
 							station !== 'default' &&
-							uniqueStationNumber !== 'default' &&
-							uniqueStationName !== 'default' && (
+							station !== null && (
 								<>
 									{loading ? (
 										<>
