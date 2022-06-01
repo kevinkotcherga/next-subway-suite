@@ -8,8 +8,6 @@ import './home.scss';
 
 const Home = () => {
 	const [subwayStationNumber, setSubwayStationNumber] = useState([]);
-	const [uniqueStationNumber, setUniqueStationNumber] = useState('default');
-	const [uniqueStationName, setUniqueStationName] = useState('default');
 	const [allStationNames, setAllStationNames] = useState([]);
 	const [schedulesWayA, setSchedulesWayA] = useState([]);
 	const [schedulesWayR, setSchedulesWayR] = useState([]);
@@ -47,7 +45,6 @@ const Home = () => {
 	// Récupération du numéro d'une ligne de métro avec onChange
 	const handleSubwayNumber = e => {
 		try {
-			setUniqueStationNumber(e.target.value);
 			setSearchParams({ line: e.target.value });
 		} catch (err) {
 			console.log(err);
@@ -74,7 +71,6 @@ const Home = () => {
 	// Récupération du nom d'une station avec onChange
 	const handleStationName = e => {
 		try {
-			setUniqueStationName(e.target.value);
 			searchParams.set('station', e.target.value);
 			setSearchParams(searchParams);
       setLoading(false);
@@ -95,13 +91,14 @@ const Home = () => {
 					setErrorWayA(false);
 					setLoading(true);
 				} catch (err) {
+          setLoading(true);
 					setErrorWayA(true);
 					console.log(err);
 				}
 			}
 		};
 		getSchedulesWayA();
-	}, [station]);
+	}, [line, station]);
 
 	// Recupération des horraires d'une station voie R
 	useEffect(() => {
@@ -115,13 +112,14 @@ const Home = () => {
 					setErrorWayR(false);
 					setLoading(true);
 				} catch (err) {
+          setLoading(true);
 					setErrorWayR(true);
 					console.log(err);
 				}
 			}
 		};
 		getSchedulesWayR();
-	}, [station]);
+	}, [line, station]);
 
 	return (
 		<div className="home">
@@ -143,7 +141,7 @@ const Home = () => {
 						{line !== 'default' && line !== null && (
 							<select
 								onChange={e => handleStationName(e)}
-								value={station}
+								value={station == null ? '' : station}
 							>
 								<option value="default">Sélectionner une station...</option>
 								{allStationNames?.map(stationName => (
