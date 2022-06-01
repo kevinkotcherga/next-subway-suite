@@ -57,7 +57,7 @@ const Home = () => {
 	// Recupération du nom des stations
 	useEffect(() => {
 		const getStationNames = async () => {
-			if (line !== 'default') {
+			if (line !== 'default' && line !== null) {
 				try {
 					const { data } = await axios.get(
 						`https://api-ratp.pierre-grimaud.fr/v4/stations/metros/${line}`,
@@ -86,18 +86,18 @@ const Home = () => {
 	// Recupération des horraires d'une station voie A
 	useEffect(() => {
 		const getSchedulesWayA = async () => {
-			if (station !== 'default') {
+			if (station !== 'default' && station !== null) {
 				try {
 					const { data } = await axios.get(
 						`https://api-ratp.pierre-grimaud.fr/v4/schedules/metros/${line}/${station}/A`,
 					);
 					setSchedulesWayA(data.result.schedules);
 					setErrorWayA(false);
-          setLoading(true);
+					setLoading(true);
 				} catch (err) {
 					setErrorWayA(true);
 					console.log(err);
-				};
+				}
 			}
 		};
 		getSchedulesWayA();
@@ -106,14 +106,14 @@ const Home = () => {
 	// Recupération des horraires d'une station voie R
 	useEffect(() => {
 		const getSchedulesWayR = async () => {
-			if (station !== 'default') {
+			if (station !== 'default' && station !== null) {
 				try {
 					const { data } = await axios.get(
 						`https://api-ratp.pierre-grimaud.fr/v4/schedules/metros/${line}/${station}/R`,
 					);
 					setSchedulesWayR(data.result.schedules);
 					setErrorWayR(false);
-          setLoading(true);
+					setLoading(true);
 				} catch (err) {
 					setErrorWayR(true);
 					console.log(err);
@@ -123,17 +123,14 @@ const Home = () => {
 		getSchedulesWayR();
 	}, [station]);
 
-  console.log(line, station);
-
 	return (
 		<div className="home">
 			<div className="mainContainer">
 				<div className="container">
 					<form>
 						<select
-							defaultValue={uniqueStationNumber}
 							onChange={e => handleSubwayNumber(e)}
-							value={line}
+							value={line == null ? '' : line}
 						>
 							<option value="default">Sélectionner une ligne...</option>
 							{filterOnlySubwayNumbers?.map(subwayNumber => (
@@ -145,7 +142,6 @@ const Home = () => {
 
 						{line !== 'default' && line !== null && (
 							<select
-								defaultValue={uniqueStationName}
 								onChange={e => handleStationName(e)}
 								value={station}
 							>
