@@ -15,6 +15,8 @@ const Home = () => {
 	const [schedulesWayR, setSchedulesWayR] = useState([]);
 	const [errorWayA, setErrorWayA] = useState(false);
 	const [errorWayR, setErrorWayR] = useState(false);
+
+  // Chargement des éléments
   const [loading, setLoading] = useState(false);
 
 	// useSearchParams envoie les paramètres à l'url
@@ -131,6 +133,7 @@ const Home = () => {
 						<select
 							defaultValue={uniqueStationNumber}
 							onChange={e => handleSubwayNumber(e)}
+							value={line}
 						>
 							<option value="default">Sélectionner une ligne...</option>
 							{filterOnlySubwayNumbers?.map(subwayNumber => (
@@ -140,10 +143,11 @@ const Home = () => {
 							))}
 						</select>
 
-						{line !== 'default' && uniqueStationNumber !== 'default' && (
+						{line !== 'default' && line !== null && (
 							<select
 								defaultValue={uniqueStationName}
 								onChange={e => handleStationName(e)}
+								value={station}
 							>
 								<option value="default">Sélectionner une station...</option>
 								{allStationNames?.map(stationName => (
