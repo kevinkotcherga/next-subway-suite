@@ -75,6 +75,7 @@ const Home = () => {
 			setUniqueStationName(e.target.value);
 			searchParams.set('station', e.target.value);
 			setSearchParams(searchParams);
+      setLoading(false);
 		} catch (err) {
 			console.log(err);
 		}
@@ -119,6 +120,8 @@ const Home = () => {
 		};
 		getSchedulesWayR();
 	}, [station]);
+
+  console.log(line, station);
 
 	return (
 		<div className="home">
