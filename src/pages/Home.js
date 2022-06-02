@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ErrorCard from '../components/ErrorCard';
+import Form from '../components/Form';
 import ScheduleCard from '../components/ScheduleCard';
 import './home.scss';
 
@@ -13,8 +14,8 @@ const Home = () => {
 	const [errorWayA, setErrorWayA] = useState(false);
 	const [errorWayR, setErrorWayR] = useState(false);
 
-  // Chargement des éléments
-  const [loading, setLoading] = useState(false);
+	// Chargement des éléments
+	const [loading, setLoading] = useState(false);
 
 	// useSearchParams envoie les paramètres à l'url
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -72,7 +73,7 @@ const Home = () => {
 		try {
 			searchParams.set('station', e.target.value);
 			setSearchParams(searchParams);
-      setLoading(false);
+			setLoading(false);
 		} catch (err) {
 			console.log(err);
 		}
@@ -90,7 +91,7 @@ const Home = () => {
 					setErrorWayA(false);
 					setLoading(true);
 				} catch (err) {
-          setLoading(true);
+					setLoading(true);
 					setErrorWayA(true);
 					console.log(err);
 				}
@@ -111,7 +112,7 @@ const Home = () => {
 					setErrorWayR(false);
 					setLoading(true);
 				} catch (err) {
-          setLoading(true);
+					setLoading(true);
 					setErrorWayR(true);
 					console.log(err);
 				}
@@ -124,6 +125,11 @@ const Home = () => {
 		<div className="home">
 			<div className="mainContainer">
 				<div className="container">
+					<Form
+						filterOnlySubwayNumbers={filterOnlySubwayNumbers}
+						line={line}
+						setSearchParams={setSearchParams}
+					/>
 					<form>
 						<select
 							onChange={e => handleSubwayNumber(e)}
