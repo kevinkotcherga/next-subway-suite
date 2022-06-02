@@ -2,8 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ErrorCard from '../components/errorCard/ErrorCard';
-import ScheduleCardsWayA from '../components/scheduleCardsWayA/ScheduleCardsWayA';
-import ScheduleCardsWayR from '../components/scheduleCardsWayR/ScheduleCardsWayR';
+import ScheduleCard from '../components/ScheduleCard';
 import './home.scss';
 
 const Home = () => {
@@ -166,10 +165,10 @@ const Home = () => {
 												<ErrorCard className="scheduleCards error" />
 											) : (
 												<>
-													{schedulesWayA?.map(scheduleWayA => (
-														<ScheduleCardsWayA
-															key={scheduleWayA.message}
-															scheduleWayA={scheduleWayA}
+													{schedulesWayA?.map(schedule => (
+														<ScheduleCard
+															key={schedule.message}
+															schedule={schedule}
 															className="scheduleCards"
 														/>
 													))}
@@ -179,10 +178,10 @@ const Home = () => {
 												<ErrorCard className="scheduleCards error" />
 											) : (
 												<>
-													{schedulesWayR?.map(scheduleWayR => (
-														<ScheduleCardsWayR
-															key={scheduleWayR.message}
-															scheduleWayR={scheduleWayR}
+													{schedulesWayR?.map(schedule => (
+														<ScheduleCard
+															key={schedule.message}
+															schedule={schedule}
 															className="scheduleCards"
 														/>
 													))}
