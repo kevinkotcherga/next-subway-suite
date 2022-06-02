@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import ErrorCard from '../components/errorCard/ErrorCard';
+import ErrorCard from '../components/ErrorCard';
 import ScheduleCard from '../components/ScheduleCard';
 import './home.scss';
 
