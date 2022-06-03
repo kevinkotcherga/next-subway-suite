@@ -1,9 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import ErrorCard from '../components/ErrorCard';
 import Form from '../components/Form';
-import ScheduleCard from '../components/ScheduleCard';
+import Results from '../components/Results';
 import './home.scss';
 
 const Home = () => {
@@ -101,63 +100,34 @@ const Home = () => {
 		getSchedulesWayR();
 	}, [line, station]);
 
+	useEffect(() => {
+		const getSchedules = async () => {};
+		getSchedules();
+	}, []);
+
 	return (
 		<div className="home">
 			<div className="mainContainer">
 				<div className="container">
 					<Form
-						filterOnlySubwayNumbers={filterOnlySubwayNumbers}
 						line={line}
 						station={station}
 						searchParams={searchParams}
 						setSearchParams={setSearchParams}
-						className="formClass"
-						setLoading={setLoading}
+						filterOnlySubwayNumbers={filterOnlySubwayNumbers}
 						allStationNames={allStationNames}
+						setLoading={setLoading}
+						className="formClass"
 					/>
-
-					<div className="results">
-						<p>Résultats</p>
-						{line !== 'default' &&
-							line !== null &&
-							station !== 'default' &&
-							station !== null && (
-								<>
-									{loading ? (
-										<>
-											{errorWayA ? (
-												<ErrorCard className="scheduleCards error" />
-											) : (
-												<>
-													{schedulesWayA?.map(schedule => (
-														<ScheduleCard
-															key={schedule.message}
-															schedule={schedule}
-															className="scheduleCards"
-														/>
-													))}
-												</>
-											)}
-											{errorWayR ? (
-												<ErrorCard className="scheduleCards error" />
-											) : (
-												<>
-													{schedulesWayR?.map(schedule => (
-														<ScheduleCard
-															key={schedule.message}
-															schedule={schedule}
-															className="scheduleCards"
-														/>
-													))}
-												</>
-											)}
-										</>
-									) : (
-										'Chargement...'
-									)}
-								</>
-							)}
-					</div>
+					<Results
+						line={line}
+						station={station}
+						loading={loading}
+						errorWayA={errorWayA}
+						schedulesWayA={schedulesWayA}
+						errorWayR={errorWayR}
+						schedulesWayR={schedulesWayR}
+					/>
 				</div>
 			</div>
 		</div>
