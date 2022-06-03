@@ -12,8 +12,11 @@
       gap: 1rem;
       width: 50vw;
       display: flex;
-      margin-top: 5rem;
+      margin-top: 4rem;
       flex-direction: column;
+      h1 {
+        font-weight: 500;
+      }
       .formClass, .results {
         gap: 0.5rem;
         border: 1px solid #E0E0E0;
@@ -33,6 +36,9 @@
         .error {
           background-color: #f00;
         }
+      }
+      .results {
+        margin-bottom: 50px;
       }
     }
   }

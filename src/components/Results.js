@@ -10,10 +10,11 @@ const Results = ({
 	schedulesWayA,
 	errorWayR,
 	schedulesWayR,
+	className,
 }) => {
 	return (
 		<div>
-			<div className="results">
+			<div className={className}>
 				<p>Résultats</p>
 				{line !== 'default' &&
 					line !== null &&

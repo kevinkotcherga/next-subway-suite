@@ -1,7 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import Banner from '../components/Banner/Banner';
+import Footer from '../components/Footer/Footer';
 import Form from '../components/Form';
+import Header from '../components/Header/Header';
 import Results from '../components/Results';
 import './home.scss';
 
@@ -58,7 +61,7 @@ const Home = () => {
 		getStationNames();
 	}, [line]);
 
-	// Recupération des horraires d'une station voie A
+	// Get schedules way A
 	useEffect(() => {
 		const getSchedulesWayA = async () => {
 			if (station !== 'default' && station !== null) {
@@ -79,7 +82,7 @@ const Home = () => {
 		getSchedulesWayA();
 	}, [line, station]);
 
-	// Recupération des horraires d'une station voie R
+	// Get schedules way R
 	useEffect(() => {
 		const getSchedulesWayR = async () => {
 			if (station !== 'default' && station !== null) {
@@ -102,13 +105,22 @@ const Home = () => {
 
 	useEffect(() => {
 		const getSchedules = async () => {};
+		if (station !== 'default' && station !== null) {
+		}
 		getSchedules();
-	}, []);
+	}, [station]);
 
 	return (
 		<div className="home">
 			<div className="mainContainer">
+				<Header />
+				<Banner />
 				<div className="container">
+					<h1>Les horraires en direct :</h1>
+					<p>
+						La RATP vous transporte à Paris et en Ile-de-France de jour comme de
+						nuit.
+					</p>
 					<Form
 						line={line}
 						station={station}
@@ -127,8 +139,10 @@ const Home = () => {
 						schedulesWayA={schedulesWayA}
 						errorWayR={errorWayR}
 						schedulesWayR={schedulesWayR}
+						className="results"
 					/>
 				</div>
+				<Footer />
 			</div>
 		</div>
 	);
