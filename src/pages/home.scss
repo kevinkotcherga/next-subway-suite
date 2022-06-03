@@ -15,7 +15,11 @@
       margin-top: 4rem;
       flex-direction: column;
       h1 {
+        font-size: 2.1rem;
         font-weight: 500;
+      }
+      p {
+        font-size: 1.2rem;
       }
       .formClass, .results {
         gap: 0.5rem;

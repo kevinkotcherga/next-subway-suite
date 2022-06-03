@@ -116,7 +116,7 @@ const Home = () => {
 				<Header />
 				<Banner />
 				<div className="container">
-					<h1>Les horraires en direct :</h1>
+					<h1>Les horraires du métro en direct :</h1>
 					<p>
 						La RATP vous transporte à Paris et en Ile-de-France de jour comme de
 						nuit.
